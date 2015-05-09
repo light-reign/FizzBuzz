@@ -1,22 +1,19 @@
-def fizz_buzz(param_dict, num_list):
-    # param in format 'Fizz' : lambda bool function
-    result = []
-    for num in num_list:
-        output = ''
-        for key in param_dict:
-            if param_dict[key](num):
-                output += key
-        if output == '':
-            output = num
+def fizz_buzz(params, num):
+    # params is a list of rule dictionaries Ex. params[0] = {'Fizz' : lambda bool function}
+    output = ''
+    for order in params:
+        for rule in order:
+            if order[rule](num):
+                output += rule
+    if (output == ''):
+        output = num
 
-        result.append(output)
-    return result
+    return output
 
-params = {
-            'Fizz' : (lambda i: (i % 3) == 0)
-            , 'Buzz' : (lambda i: (i % 5) == 0)
-            , 'Zazz' : (lambda i: (i < 10))
-         }
+params = [{'Fizz' : (lambda i: (i % 3) == 0)}
+        , {'Buzz' : (lambda i: (i % 5) == 0)}
+        , {'Zazz' : (lambda i: (i < 10))}
+        ]
 
-for value in fizz_buzz(params, range(1, 101)):
-    print value,
+for num in range(1, 21):
+    print fizz_buzz_v2(params, num)
