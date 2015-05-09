@@ -1,24 +1,22 @@
-def output_list(my_list):
-    for item in my_list:
-        print item,
-
-def fizz_buzz(fizz, buzz, num_list):
+def fizz_buzz(param_dict, num_list):
+    # param in format 'Fizz' : lambda bool function
     result = []
     for num in num_list:
         output = ''
-        should_fizz = (num % fizz == 0)
-        should_buzz = (num % buzz == 0)
-        if should_fizz:
-            output += "Fizz"
-
-        if should_buzz:
-            output += "Buzz"
-
-        if not should_fizz and not should_buzz:
+        for key in param_dict:
+            if param_dict[key](num):
+                output += key
+        if output == '':
             output = num
 
         result.append(output)
-        
     return result
 
-output_list(fizz_buzz(3, 5, range(0,101)))
+params = {
+            'Fizz' : (lambda i: (i % 3) == 0)
+            , 'Buzz' : (lambda i: (i % 5) == 0)
+            , 'Zazz' : (lambda i: (i < 10))
+         }
+
+for value in fizz_buzz(params, range(1, 101)):
+    print value,
